@@ -1,0 +1,10 @@
+###これが設定ファイル。コメント行は半角#で始めてください。
+
+# DEVIDE_INTERVAL：フーリエ変換前に音声を何秒ごとに区切るか
+DEVIDE_INTERVAL = 2
+
+# OUTPUT_DIR：出力先ディレクトリ。
+OUTPUT_DIR = /home/naja/Templates/output
+
+# INPUT_DIR：変換したいファイルが格納されたディレクトリ
+INPUT_DIR = /home/naja/Templates/input
