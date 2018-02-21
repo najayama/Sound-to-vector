@@ -5,14 +5,28 @@
 def _print_error(error_str,error_info):
     import sys
     print("エラー：" + error_str % error_info)
-    
-    errorfile = open()
     sys.exit()
+
 
 #辞書中の数字の変数の値が文字列のままなので数値に直す。（例："3" -> 3）
 def _convert_values(arg_dict):
+    
+    
+    #設定項目が見当たらなかった際のメッセージを出力する関数。
+    def _p_how_to_define(item_name):
+        _print_error("%sの設定行が見当たりません。\n"
+                     "%s = 値\n"
+                     "の形式で書かれているか確かめてください")
+        
+        interval = arg_dict["DEVIDE_INTERVAL"]    
     try:
-        interval = float(arg_dict[])
+        arg_dict["DEVIDE_INTERVAL"] = float(interval)
+        
+    except IndexError:
+        _p_how_to_define("DEVIDE_INTERVAL")
+    except ValueError:
+        _print_error("DEVIDE_INTERVALに指定された値が異常です。\n"
+                    "指定された値：%s", (interval))
         
 
 
@@ -21,27 +35,40 @@ def _check_values(arg_dict):
     pass
 
 
-
-
-#保守の観点からいうと変数名の組と値を辞書に
-#いれんのは関数にやらせたほうがきれいで追加しやすいコードになりそう。
 def read_config():
     config_dictionary = {}
-
     
-    with open("config.txt", "r") as confile:
-        #設定の書いてある行のみ取り出す
-        line_number = 1
+    with open("config_files/config.txt", "r") as confile:
+
+        #現在扱っているのが何行目かを保持する変数
+        current_line = 1
+       
+        #設定に関する行のみ取り出して、辞書に格納
         line = confile.readline()
         while line:
-            if(line.strip()[:15] == "DEVIDE_INTERVAL"):
+            line = line.strip()
+
+            #コメント行は無視
+            if(line == "" or line[0] = "#"):
+                pass
+            else:
                 try:
-                    config_dictionary["DEVIDE_INTERVAL"] = float(line.split()[2])
-                except:
-                    perror(line, line_number)
-            elif(line.strip()[:10] == "OUTPUT_DIR"):
-                try:
-                    config_dictionary["OUTPUT_DIR"] = line.split()[2]
-                except:
-                    perror(line,line_number)
-            elif(line.strip()[:])
+                    key = line.split("=")[0].strip()
+                    value = line.split("=")[1].strip()
+                    config_dictionary[key] = value
+                except  IndexError:
+                    _print_error(
+                        "設定ファイル%d行目が異常です。\n"
+                    "A = B\nの形か確認してください。\n"
+                    "%d行目：%s"
+                    , (current_line, current_line, line)
+                    )
+                    
+            current_line += 1
+            line = confile.readline()
+        
+    config_dictionary = _convert_values(config_dictionary)
+    config_dictionary = _check_values(config_dictionary)
+    
+    return config_dictionary
+
