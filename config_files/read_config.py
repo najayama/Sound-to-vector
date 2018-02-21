@@ -16,7 +16,7 @@ def _check_enough_val(arg_dict):
     for item in config_list:
         try:
             arg_dict[item]
-        except IndexError:
+        except KeyError:
             _print_error("%sの設定行が見当たりません。\n"
                              "%s = 値\n"
                              "の形式で書かれているか確かめてください"
@@ -76,6 +76,7 @@ def read_config():
             line = confile.readline()
         
     _check_enough_val(config_dictionary)
+    config_dictionary = _convert_values(config_dictionary)
     _check_values(config_dictionary)
     
     return config_dictionary
