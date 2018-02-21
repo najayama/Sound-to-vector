@@ -1,10 +1,14 @@
 ###これが設定ファイル。コメント行は半角#で始めてください。
 
+###各変数の意味は以下の通り
 # DEVIDE_INTERVAL：フーリエ変換前に音声を何秒ごとに区切るか
-DEVIDE_INTERVAL = 2
-
 # OUTPUT_DIR：出力先ディレクトリ。
-OUTPUT_DIR = /home/naja/Templates/output
+# INPUT_DIR：変換したいファイルたちが格納されたディレクトリ
 
-# INPUT_DIR：変換したいファイルが格納されたディレクトリ
+
+#注意！ディレクトリの設定行に=が2つ以上はいっている、つまり
+#OUTPUT_DIR = /home/na=ja/Templates/　なんてことになると、多分バグる。
+
+DEVIDE_INTERVAL = 2
+OUTPUT_DIR = /home/naja/Templates/output
 INPUT_DIR = /home/naja/Templates/input
