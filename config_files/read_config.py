@@ -1,10 +1,27 @@
-#設定を読み込むためのファイル。辞書形式で設定項目と値の組を返す。
+#設定を読み込むための関数群。
+#辞書形式で設定項目名と値の組を返す。
 
-def perror(invalid_line, line_number):
+#エラー吐いて終了する関数
+def _print_error(error_str,error_info):
     import sys
-    print("エラー：設定ファイルの%d行目の値が異常です。" % (line_number))
-    print("問題のライン：%s" % (invalid_line))
+    print("エラー：" + error_str % error_info)
+    
+    errorfile = open()
     sys.exit()
+
+#辞書中の数字の変数の値が文字列のままなので数値に直す。（例："3" -> 3）
+def _convert_values(arg_dict):
+    try:
+        interval = float(arg_dict[])
+        
+
+
+#辞書に格納した変数が正常な値かチェックする。
+def _check_values(arg_dict):
+    pass
+
+
+
 
 #保守の観点からいうと変数名の組と値を辞書に
 #いれんのは関数にやらせたほうがきれいで追加しやすいコードになりそう。
