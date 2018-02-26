@@ -78,11 +78,10 @@ for infname in input_files:
     
     current_buffer = 0
     x = load_wave(inf, devide_interval, freq)
-    while x:
+    while any(x):
         xlength = len(x)
         current_buffer += 1
         X = scipy.fftpack.fft(x)
-        #freqlist = scipy.fftpack.fftfreq(int(freq * devide_interval),  d=1.0/freq)
         freqlist = scipy.fftpack.fftfreq(xlength,  d=1.0/freq)
                 
         #振幅スペクトル
