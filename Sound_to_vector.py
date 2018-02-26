@@ -25,10 +25,11 @@ def load_wave(wf, devide_interval, freq):
 
     #整数データを量子化ビット数に応じて正規化    
     raw_data = wf.readframes(int(frame))
+
     if wf.getsampwidth() == 2:
         x = np.frombuffer(raw_data, dtype="int16") / (32768.0)
     else:
-        x = np.frombuffer(raw_data, dtype= "u1") / (256)
+        x = np.frombuffer(raw_data, dtype= "u1") 
         x = [(i - 128) / 128 for i in x]
     
     #もしもステレオなら足して二で割ってモノラルにする
@@ -36,7 +37,6 @@ def load_wave(wf, devide_interval, freq):
         left = x[0::2]
         right = x[1::2]
         x = [(i + j) / 2 for i, j in zip(left, right)]
-    wf.close()
         
     return x
         
@@ -79,42 +79,33 @@ for infname in input_files:
     current_buffer = 0
     x = load_wave(inf, devide_interval, freq)
     while x:
+        xlength = len(x)
         current_buffer += 1
         X = scipy.fftpack.fft(x)
-        freqlist = scipy.fftpack.fftfreq(int(freq * devide_interval),  d=1.0/freq)
-        
+        #freqlist = scipy.fftpack.fftfreq(int(freq * devide_interval),  d=1.0/freq)
+        freqlist = scipy.fftpack.fftfreq(xlength,  d=1.0/freq)
+                
         #振幅スペクトル
         amplitudeSpectrum = [np.sqrt(c.real ** 2 + c.imag ** 2) for c in X]
         data = np.c_[freqlist, amplitudeSpectrum]
         
         #出力
         writer = csv.writer(outf)
-        writer.writerows([[
-            "start = {}seq".format(current_buffer * devide_interval)
-            , "end = {}seq".format((current_buffer+1) * devide_interval)], ])
+        
+        startseq = (current_buffer-1) * devide_interval
+        endseq = startseq + xlength / freq
+        
+        writer.writerows([
+            [ "start = {}seq".format(startseq)
+            , "end = {}seq".format(endseq)], ])
+      
         writer.writerows(data)
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-    
-    
-    
-    
-    
+
+        x = load_wave(inf, devide_interval, freq)
+            
     inf.close()
     outf.close()
 
-#フーリエ変換
-#結果の書き出し
 
 
 
