@@ -46,7 +46,7 @@ def _check_values(arg_dict):
 def read_config():
     config_dictionary = {}
     config_dir = os.path.dirname(__file__)
-    with open(config_dir + "/config.txt", "r") as confile:
+    with open(config_dir + "/config.txt", "r", encoding="utf-8") as confile:
 
         #現在扱っているのが何行目かを保持する変数
         current_line = 1
@@ -65,13 +65,8 @@ def read_config():
                     value = line.split("=")[1].strip()
                     config_dictionary[key] = value
                 except  IndexError:
-                    _print_error(
-                        "設定ファイル%d行目が異常です。\n"
-                    "A = B\nの形か確認してください。\n"
-                    "%d行目：%s"
-                    , (current_line, current_line, line)
-                    )
-                    
+                    pass
+
             current_line += 1
             line = confile.readline()
         
