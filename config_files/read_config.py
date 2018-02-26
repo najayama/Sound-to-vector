@@ -45,8 +45,8 @@ def _check_values(arg_dict):
 
 def read_config():
     config_dictionary = {}
-    
-    with open("config_files/config.txt", "r") as confile:
+    config_dir = os.path.dirname(__file__)
+    with open(config_dir + "/config.txt", "r") as confile:
 
         #現在扱っているのが何行目かを保持する変数
         current_line = 1
